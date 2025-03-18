@@ -34,7 +34,9 @@ tsconfig.json:
 ```
 
 tsconfig.app.json:
-`// empty or delete`
+```
+// empty or delete
+```
 
 tsconfig.node.json:
 ```
