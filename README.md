@@ -127,7 +127,7 @@ https://mantine.dev/styles/sass/
 #### 2.2 Configure Mantine (option)
 Upcoming...
 
-# Step 4. Extend .vscode
+### Step 4. Extend .vscode
 By default project including recommended extension to work with.
 
 extension.json:
@@ -164,7 +164,7 @@ settings.json:
 }
 ```
 
-# Step 5. Configuring Eslint
+### Step 5. Configuring Eslint
 Before starting we need to install several packages with --save-dev flag.
 npm install --save-dev @eslint/compat @eslint/eslintrc
 
