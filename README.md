@@ -5,7 +5,7 @@ React TypeScript + SWC project configure guide
 npm create vite@latest project-name --template react-swc-ts
 
 ### Step 2. Configurate Vite & TypeScript files
-> tsconfig.json
+tsconfig.json:
 ```
 {
   "compilerOptions": {
@@ -33,12 +33,10 @@ npm create vite@latest project-name --template react-swc-ts
 }
 ```
 
-> tsconfig.app.json
-```
-// empty or delete
-```
+tsconfig.app.json:
+`// empty or delete`
 
-> tsconfig.node.json
+tsconfig.node.json:
 ```
 {
   "compilerOptions": {
@@ -59,7 +57,7 @@ npm create vite@latest project-name --template react-swc-ts
 }
 ```
 
-> vite.config.ts
+vite.config.ts:
 ```
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
@@ -98,7 +96,7 @@ https://mantine.dev/getting-started/
 npm install @mantine/core @mantine/hooks @mantine/modals @mantine/form @mantine/dates dayjs @mantine/notifications @mantine/nprogress
 npm install --save-dev postcss postcss-preset-mantine postcss-simple-vars
 
-> App.tsx
+App.tsx:
 ```
 import '@mantine/core/styles.css';
 import { createTheme, MantineProvider } from '@mantine/core';
@@ -130,7 +128,7 @@ Upcoming...
 # Step 4. Extend .vscode
 By default project including recommended extension to work with.
 
-> extension.json
+extension.json:
 ```
 {
 	"recommendations": [
@@ -149,13 +147,9 @@ By default project including recommended extension to work with.
 
 Also project has settings.json file to provide work with css variables.
 If you want to share settings between team add to .gitignore:
-```
-...
-!.vscode/settings.json
-...
-```
+`!.vscode/settings.json`
 
-> settings.json
+settings.json:
 ```
 {
     "cssVariables.lookupFiles": [
@@ -172,7 +166,7 @@ If you want to share settings between team add to .gitignore:
 Before starting we need to install several packages with --save-dev flag.
 npm install --save-dev @eslint/compat @eslint/eslintrc
 
-> Create eslint.cjs file
+Create eslint.cjs file:
 ```
 module.exports = {
 	root: true,
@@ -206,7 +200,7 @@ module.exports = {
 }
 ```
 
-> Change eslint.config.js file extension to .mjs
+Change eslint.config.js file extension to .mjs:
 ```
 import { fixupConfigRules } from "@eslint/compat";
 import reactRefresh from "eslint-plugin-react-refresh";
