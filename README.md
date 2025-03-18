@@ -168,7 +168,7 @@ settings.json:
 Before starting we need to install several packages with --save-dev flag.
 npm install --save-dev @eslint/compat @eslint/eslintrc
 
-Create eslint.cjs file:
+Create .eslint.cjs file:
 ```
 module.exports = {
 	root: true,
