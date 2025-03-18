@@ -1,0 +1,13 @@
+{
+	"recommendations": [
+		"vunguyentuan.vscode-css-variables",
+		"csstools.postcss",
+		"burkeholland.simple-react-snippets",
+		"dbaeumer.vscode-eslint",
+		"editorconfig.editorconfig",
+		"wix.glean",
+		"christian-kohler.npm-intellisense",
+		"christian-kohler.path-intellisense",
+		"rafaelsalguero.csharp2ts",
+	]
+}

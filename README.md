@@ -5,7 +5,7 @@ React TypeScript + SWC project configure guide
 npm create vite@latest project-name --template react-swc-ts
 
 ### Step 2. Configurate Vite & TypeScript files
-tsconfig.json
+> tsconfig.json
 ```
 {
   "compilerOptions": {
@@ -33,12 +33,12 @@ tsconfig.json
 }
 ```
 
-tsconfig.app.json
+> tsconfig.app.json
 ```
 // empty or delete
 ```
 
-tsconfig.node.json
+> tsconfig.node.json
 ```
 {
   "compilerOptions": {
@@ -59,7 +59,7 @@ tsconfig.node.json
 }
 ```
 
-vite.config.ts
+> vite.config.ts
 ```
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
@@ -98,7 +98,7 @@ https://mantine.dev/getting-started/
 npm install @mantine/core @mantine/hooks @mantine/modals @mantine/form @mantine/dates dayjs @mantine/notifications @mantine/nprogress
 npm install --save-dev postcss postcss-preset-mantine postcss-simple-vars
 
-App.tsx
+> App.tsx
 ```
 import '@mantine/core/styles.css';
 import { createTheme, MantineProvider } from '@mantine/core';
@@ -127,6 +127,144 @@ https://mantine.dev/styles/sass/
 #### 2.2 Configure Mantine (option)
 Upcoming...
 
+# Step 4. Extend .vscode
+By default project including recommended extension to work with.
+
+> extension.json
+```
+{
+	"recommendations": [
+		"vunguyentuan.vscode-css-variables",
+		"csstools.postcss",
+		"burkeholland.simple-react-snippets",
+		"dbaeumer.vscode-eslint",
+		"editorconfig.editorconfig",
+		"wix.glean",
+		"christian-kohler.npm-intellisense",
+		"christian-kohler.path-intellisense",
+		"rafaelsalguero.csharp2ts",
+	]
+}
+```
+
+Also project has settings.json file to provide work with css variables.
+If you want to share settings between team add to .gitignore:
+```
+...
+!.vscode/settings.json
+...
+```
+
+> settings.json
+```
+{
+    "cssVariables.lookupFiles": [
+        "**/*.css",
+        "**/*.scss",
+        "**/*.sass",
+        "**/*.less",
+        "node_modules/@mantine/core/styles.css"
+    ]
+}
+```
+
+# Step 5. Configuring Eslint
+Before starting we need to install several packages with --save-dev flag.
+npm install --save-dev @eslint/compat @eslint/eslintrc
+
+> Create eslint.cjs file
+```
+module.exports = {
+	root: true,
+	env: { browser: true, es2020: true },
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/recommended',
+		'plugin:react-hooks/recommended',
+		'plugin:react/jsx-runtime',
+	],
+	ignorePatterns: ['dist', '.eslintrc.cjs'],
+	parser: '@typescript-eslint/parser',
+	plugins: ['react-refresh'],
+	rules: {
+		"react/jsx-uses-react": "off",
+		"react/react-in-jsx-scope": "off",
+		"react/jsx-key": 1,
+		"@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+		'react-refresh/only-export-components': [
+			'warn',
+			{
+				allowConstantExport: true
+			},
+		],
+		"@typescript-eslint/naming-convention": [2,  {
+			"selector": "enumMember",
+			"format": ["PascalCase"]
+		  }
+		]
+	},
+}
+```
+
+> Change eslint.config.js file extension to .mjs
+```
+import { fixupConfigRules } from "@eslint/compat";
+import reactRefresh from "eslint-plugin-react-refresh";
+import globals from "globals";
+import tsParser from "@typescript-eslint/parser";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import js from "@eslint/js";
+import { FlatCompat } from "@eslint/eslintrc";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const compat = new FlatCompat({
+    baseDirectory: __dirname,
+    recommendedConfig: js.configs.recommended,
+    allConfig: js.configs.all
+});
+
+export default [{
+    ignores: ["**/dist", "**/.eslintrc.cjs"],
+}, ...fixupConfigRules(compat.extends(
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/jsx-runtime",
+)), {
+    plugins: {
+        "react-refresh": reactRefresh,
+    },
+
+    languageOptions: {
+        globals: {
+            ...globals.browser,
+        },
+
+        parser: tsParser,
+    },
+
+    rules: {
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-key": 1,
+
+        "@typescript-eslint/no-unused-vars": ["error", {
+            argsIgnorePattern: "^_",
+        }],
+
+        "react-refresh/only-export-components": ["warn", {
+            allowConstantExport: true,
+        }],
+
+        "@typescript-eslint/naming-convention": [2, {
+            selector: "enumMember",
+            format: ["PascalCase"],
+        }],
+    },
+}];
+```
 
 # Cheat Sheet
 ### Update packages
