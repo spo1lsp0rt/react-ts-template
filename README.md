@@ -264,6 +264,10 @@ export default [{
 
 # Настройка работы с Nexus Repository Manager
 
+Полезные ссылки:
+1. https://stackoverflow.com/questions/35043155/how-should-i-set-auth-in-npmrc-when-using-a-nexus-https-npm-registry-proxy
+2. https://help.sonatype.com/en/npm-security.html
+
 ## Для публикации пакетов
 
 1. Основной вариант
