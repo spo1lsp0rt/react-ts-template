@@ -262,6 +262,157 @@ export default [{
 }];
 ```
 
+# Настройка работы с Nexus Repository Manager
+
+## Для публикации пакетов
+
+1. Основной вариант
+1.1 Настроить package.json
+```json
+{
+  "name": "package-name",
+  "version": "1.0.0",
+}
+```
+
+1.2 Создать .npmrc
+```ini
+registry=https://localhost:8080/repository/npm-public/
+cafile=./localhost
+```
+
+1.3 Создать cafile с данными сертификата (при необходимости)
+```
+-----BEGIN CERTIFICATE-----
+...
+-----END CERTIFICATE-----
+```
+
+1.4 Проверить работу
+Чтобы проверить работу registry:
+```bash
+npm ping
+```
+npm отправит запрос к registry, чтобы проверить соединение и авторизацию:
+```
+npm notice PING https://localhost:8080/repository/npm-public/
+npm notice PONG 150ms
+```
+
+Чтобы проверить работу публикации в hosted:
+```bash
+npm publish --registry https://localhost:8080/repository/npm-hosted/ --dry-run
+```
+
+Или если пакет уже опубликован (иначе будет 404 с '... is not in this registry.'):
+```bash
+npm info package-name
+```
+или
+```bash
+npm view package-name
+```
+
+2. При помощи @scope
+2.1 Настроить package.json
+```json
+{
+  "name": "@scope-name/package-name",
+  "version": "1.0.0",
+}
+```
+
+2.2 Создать .npmrc
+```ini
+registry=https://localhost:8080/repository/npm-public/
+@scope-name:registry=https://localhost:8080/repository/npm-hosted/
+cafile=./localhost
+```
+
+2.3 Создать cafile с данными сертификата (при необходимости)
+```
+-----BEGIN CERTIFICATE-----
+...
+-----END CERTIFICATE-----
+```
+
+2.4 Проверить работу
+Чтобы проверить работу основного registry:
+```bash
+npm ping
+```
+npm отправит запрос к основному registry, чтобы проверить соединение и авторизацию:
+```
+npm notice PING https://localhost:8080/repository/npm-public/
+npm notice PONG 150ms
+```
+
+Чтобы проверить работу @scope-name:registry:
+```bash
+npm publish --dry-run
+```
+
+Или если пакет уже опубликован (иначе будет 404 с '... is not in this registry.'):
+```bash
+npm info @scope-name/package-name
+```
+или
+```bash
+npm view @scope-name/package-name
+```
+
+3. При помощи publishConfig
+Но он не умеет передавать cafile и прочие низкоуровневые параметры.
+
+3.1 Настроить package.json
+```json
+{
+  "name": "package-name",
+  "version": "1.0.0",
+  "publishConfig": {
+    "registry": "https://localhost:8080/repository/npm-hosted/"
+  }
+}
+```
+
+3.2 Создать .npmrc
+```ini
+cafile=./localhost.pem
+```
+
+3.3 Создать cafile с данными сертификата
+
+3.4 Проверить работу
+
+## Для получения пакетов
+
+Создать .npmrc
+```ini
+registry=https://localhost:8080/repository/npm-public/
+cafile=./localhost.pem
+```
+
+Создать cafile с данными сертификата (при необходимости)
+
+Проверить работу
+
+## CI
+
+Важно при настройке CI учесть наличие приоритетов для разных областей .npmrc. Так как у корневого .npmrc проекта будет высший приоритет, то при наличии значения registry в .npmrc, потребуется перезаписывать непосредственно в корень значения registry после выполнения билда:
+```bash
+npm config set registry https://localhost:8080/repository/npm-hosted/ --location=project
+```
+
+Как вариант, также можно избавиться от значения registry в корневом .npmrc и отдать управление над ним пользовательскому. Соответсвенно на шаге с получением пакетов обращаться к public директории:
+```bash
+npm config set registry https://localhost:8080/repository/npm-public/
+```
+
+А при необходимости публикации к hosted:
+```bash
+npm config set registry https://localhost:8080/repository/npm-hosted/
+```
+
 # Cheat Sheet
 ### Update packages
 ```
